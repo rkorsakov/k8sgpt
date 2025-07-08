@@ -18,6 +18,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"github.com/k8sgpt-ai/k8sgpt/pkg/ai/promts"
 	"reflect"
 	"strings"
 	"sync"
@@ -443,6 +444,11 @@ func (a *Analysis) GetAIResults(output string, anonymize bool) error {
 		fmt.Println("Debug: Generating AI analysis.")
 	}
 
+	// Устанавливаем язык для промтов
+	if err := promts.SetLanguage(a.Language); err != nil {
+		return fmt.Errorf("failed to set language for prompts: %v", err)
+	}
+
 	var bar *progressbar.ProgressBar
 	if output != "json" {
 		bar = progressbar.Default(int64(len(a.Results)))
@@ -464,16 +470,14 @@ func (a *Analysis) GetAIResults(output string, anonymize bool) error {
 			texts = append(texts, failure.Text)
 		}
 
-		promptTemplate := ai.PromptMap["default"]
-		// If the resource `Kind` comes from an "integration plugin",
-		// maybe a customized prompt template will be involved.
-		if prompt, ok := ai.PromptMap[analysis.Kind]; ok {
-			promptTemplate = prompt
+		prompt := analysis.Kind
+		if _, ok := promts.PromptMap[prompt]; !ok {
+			prompt = "default"
 		}
+		promptTemplate := promts.GetPrompt(prompt)
+
 		result, err := a.getAIResultForSanitizedFailures(texts, promptTemplate)
 		if err != nil {
-			// FIXME: can we avoid checking if output is json multiple times?
-			//   maybe implement the progress bar better?
 			if output != "json" {
 				_ = bar.Exit()
 			}
@@ -526,7 +530,7 @@ func (a *Analysis) getAIResultForSanitizedFailures(texts []string, promptTmpl st
 	// Process template.
 	prompt := fmt.Sprintf(strings.TrimSpace(promptTmpl), a.Language, inputKey)
 	if a.AIClient.GetName() == ai.CustomRestClientName {
-		prompt = fmt.Sprintf(ai.PromptMap["raw"], a.Language, inputKey, prompt)
+		prompt = fmt.Sprintf(promts.PromptMap["raw"], a.Language, inputKey, prompt)
 	}
 	response, err := a.AIClient.GetCompletion(a.Context, prompt)
 	if err != nil {
