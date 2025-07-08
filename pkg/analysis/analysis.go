@@ -444,11 +444,6 @@ func (a *Analysis) GetAIResults(output string, anonymize bool) error {
 		fmt.Println("Debug: Generating AI analysis.")
 	}
 
-	// Устанавливаем язык для промтов
-	if err := promts.SetLanguage(a.Language); err != nil {
-		return fmt.Errorf("failed to set language for prompts: %v", err)
-	}
-
 	var bar *progressbar.ProgressBar
 	if output != "json" {
 		bar = progressbar.Default(int64(len(a.Results)))
@@ -468,6 +463,11 @@ func (a *Analysis) GetAIResults(output string, anonymize bool) error {
 				}
 			}
 			texts = append(texts, failure.Text)
+		}
+
+		// Устанавливаем язык для промтов
+		if err := promts.SetLanguage(a.Language); err != nil {
+			return fmt.Errorf("failed to set language for prompts: %v", err)
 		}
 
 		prompt := analysis.Kind
@@ -528,9 +528,9 @@ func (a *Analysis) getAIResultForSanitizedFailures(texts []string, promptTmpl st
 	}
 
 	// Process template.
-	prompt := fmt.Sprintf(strings.TrimSpace(promptTmpl), a.Language, inputKey)
+	prompt := fmt.Sprintf(strings.TrimSpace(promptTmpl), inputKey)
 	if a.AIClient.GetName() == ai.CustomRestClientName {
-		prompt = fmt.Sprintf(promts.PromptMap["raw"], a.Language, inputKey, prompt)
+		prompt = fmt.Sprintf(promts.PromptMap["raw"], a.Language, prompt, inputKey)
 	}
 	response, err := a.AIClient.GetCompletion(a.Context, prompt)
 	if err != nil {
