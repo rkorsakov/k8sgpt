@@ -14,19 +14,19 @@ type Prompts struct {
 
 var (
 	promptMap       map[string]string
-	currentLanguage string = "ru" // по умолчанию
+	currentLanguage string = "en" // по умолчанию
 )
 
 func init() {
 	// Загрузка промтов по умолчанию
-	err := loadPrompts("ru")
+	err := loadPrompts("en")
 	if err != nil {
 		return
 	}
 }
 
 func loadPrompts(lang string) error {
-	path := filepath.Join("promts", "locales", lang+".yaml")
+	path := filepath.Join("pkg", "ai", "promts", "locales", lang+".yaml")
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return err
