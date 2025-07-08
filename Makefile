@@ -42,7 +42,6 @@ IMG ?= ghcr.io/k8sgpt-ai/k8sgpt:latest
 
 BUILDFILE = "./main.go"
 BUILDAPP = "$(OUTPUT_DIR)/k8sgpt"
-BUILD_TAGS ?= embed
 
 .PHONY: all
 all: tidy add-copyright lint cover build
@@ -52,10 +51,10 @@ all: tidy add-copyright lint cover build
 
 ## build: Build binaries by default
 .PHONY: build
-build: 
+build:
 	@echo "$(shell go version)"
 	@echo "===========> Building binary $(BUILDAPP) *[Git Info]: $(VERSION)-$(GIT_COMMIT)"
-	@export CGO_ENABLED=0 && go build -tags $(BUILD_TAGS) -o $(BUILDAPP) -ldflags "-s -w -X main.version=dev -X main.commit=$$(git rev-parse --short HEAD) -X main.date=$$(date +%FT%TZ)" $(BUILDFILE)
+	@export CGO_ENABLED=0 && go build -o $(BUILDAPP) -ldflags "-s -w -X main.version=dev -X main.commit=$$(git rev-parse --short HEAD) -X main.date=$$(date +%FT%TZ)" $(BUILDFILE)
 
 ## tidy: tidy go.mod
 .PHONY: tidy

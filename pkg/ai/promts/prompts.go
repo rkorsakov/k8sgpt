@@ -1,9 +1,9 @@
 package promts
 
 import (
-	"embed"
-	"fmt"
 	"gopkg.in/yaml.v2"
+	"os"
+	"path/filepath"
 )
 
 type Prompts struct {
@@ -25,10 +25,9 @@ func init() {
 	}
 }
 
-var localesFS embed.FS
-
 func loadPrompts(lang string) error {
-	data, err := localesFS.ReadFile(fmt.Sprintf("locales/%s.yaml", lang))
+	path := filepath.Join("promts", "locales", lang+".yaml")
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
