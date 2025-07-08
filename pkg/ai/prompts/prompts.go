@@ -1,46 +1,29 @@
 package prompts
 
-import (
-	"embed"
-	"gopkg.in/yaml.v2"
-)
-
-//go:embed locales/*.yaml
-var localesFS embed.FS
-
-type Prompts struct {
-	Prompts map[string]struct {
-		Template string `yaml:"template"`
-	} `yaml:"prompts"`
-}
+import "fmt"
 
 var (
 	promptMap       map[string]string
-	currentLanguage string = "en" // default
+	currentLanguage string = "en"
 )
 
 func init() {
 	// Load default prompts
 	err := loadPrompts("en")
 	if err != nil {
+		fmt.Printf("Error loading default prompts: %v\n", err)
 		return
 	}
 }
 
 func loadPrompts(lang string) error {
-	data, err := localesFS.ReadFile("locales/" + lang + ".yaml")
-	if err != nil {
-		return err
-	}
-
-	var prompts Prompts
-	err = yaml.Unmarshal(data, &prompts)
-	if err != nil {
-		return err
+	prompts, ok := languagePrompts[lang]
+	if !ok {
+		return fmt.Errorf("language %s not supported (en, ru)", lang)
 	}
 
 	promptMap = make(map[string]string)
-	for key, prompt := range prompts.Prompts {
+	for key, prompt := range prompts {
 		promptMap[key] = prompt.Template
 	}
 
