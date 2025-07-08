@@ -1,10 +1,12 @@
-package promts
+package prompts
 
 import (
+	"embed"
 	"gopkg.in/yaml.v2"
-	"os"
-	"path/filepath"
 )
+
+//go:embed locales/*.yaml
+var localesFS embed.FS
 
 type Prompts struct {
 	Prompts map[string]struct {
@@ -14,11 +16,11 @@ type Prompts struct {
 
 var (
 	promptMap       map[string]string
-	currentLanguage string = "en" // по умолчанию
+	currentLanguage string = "en" // default
 )
 
 func init() {
-	// Загрузка промтов по умолчанию
+	// Load default prompts
 	err := loadPrompts("en")
 	if err != nil {
 		return
@@ -26,8 +28,7 @@ func init() {
 }
 
 func loadPrompts(lang string) error {
-	path := filepath.Join("promts", "locales", lang+".yaml")
-	data, err := os.ReadFile(path)
+	data, err := localesFS.ReadFile("locales/" + lang + ".yaml")
 	if err != nil {
 		return err
 	}

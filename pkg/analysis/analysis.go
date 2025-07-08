@@ -18,7 +18,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/k8sgpt-ai/k8sgpt/pkg/ai/promts"
+	"github.com/k8sgpt-ai/k8sgpt/pkg/ai/prompts"
 	"reflect"
 	"strings"
 	"sync"
@@ -466,15 +466,15 @@ func (a *Analysis) GetAIResults(output string, anonymize bool) error {
 		}
 
 		// Устанавливаем язык для промтов
-		if err := promts.SetLanguage(a.Language); err != nil {
+		if err := prompts.SetLanguage(a.Language); err != nil {
 			return fmt.Errorf("failed to set language for prompts: %v", err)
 		}
 
 		prompt := analysis.Kind
-		if _, ok := promts.PromptMap[prompt]; !ok {
+		if _, ok := prompts.PromptMap[prompt]; !ok {
 			prompt = "default"
 		}
-		promptTemplate := promts.GetPrompt(prompt)
+		promptTemplate := prompts.GetPrompt(prompt)
 
 		result, err := a.getAIResultForSanitizedFailures(texts, promptTemplate)
 		if err != nil {
@@ -530,7 +530,7 @@ func (a *Analysis) getAIResultForSanitizedFailures(texts []string, promptTmpl st
 	// Process template.
 	prompt := fmt.Sprintf(strings.TrimSpace(promptTmpl), inputKey)
 	if a.AIClient.GetName() == ai.CustomRestClientName {
-		prompt = fmt.Sprintf(promts.PromptMap["raw"], a.Language, prompt, inputKey)
+		prompt = fmt.Sprintf(prompts.PromptMap["raw"], a.Language, prompt, inputKey)
 	}
 	response, err := a.AIClient.GetCompletion(a.Context, prompt)
 	if err != nil {

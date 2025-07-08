@@ -53,8 +53,11 @@ all: tidy add-copyright lint cover build
 .PHONY: build
 build:
 	@echo "$(shell go version)"
+	@echo "===========> Checking for required locale files"
+	@test -f pkg/ai/prompts/locales/en.yaml || (echo "en.yaml not found in pkg/ai/prompts/locales"; exit 1)
+	@test -f pkg/ai/prompts/locales/ru.yaml || (echo "ru.yaml not found in pkg/ai/prompts/locales"; exit 1)
 	@echo "===========> Building binary $(BUILDAPP) *[Git Info]: $(VERSION)-$(GIT_COMMIT)"
-	@export CGO_ENABLED=0 && go build -o $(BUILDAPP) -ldflags "-s -w -X main.version=dev -X main.commit=$$(git rev-parse --short HEAD) -X main.date=$$(date +%FT%TZ)" $(BUILDFILE)
+	@export CGO_ENABLED=0 && go build -o $(BUILDAPP) -ldflags "-s -w -X main.version=dev -X main.commit=$(shell git rev-parse --short HEAD) -X main.date=$(shell date +%FT%TZ)" $(BUILDFILE)
 
 ## tidy: tidy go.mod
 .PHONY: tidy
