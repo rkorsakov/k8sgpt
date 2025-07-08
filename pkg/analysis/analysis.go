@@ -463,13 +463,22 @@ func (a *Analysis) GetAIResults(output string, anonymize bool) error {
 			}
 			texts = append(texts, failure.Text)
 		}
-
-		promptTemplate := ai.PromptMap["default"]
-		// If the resource `Kind` comes from an "integration plugin",
-		// maybe a customized prompt template will be involved.
-		if prompt, ok := ai.PromptMap[analysis.Kind]; ok {
-			promptTemplate = prompt
+		var promptTemplate string
+		language := strings.ToLower(a.Language)
+		if language == "ru" || language == "russian" {
+			promptTemplate = ai.PromptMapRussian["default"]
+			if prompt, ok := ai.PromptMapRussian[analysis.Kind]; ok {
+				promptTemplate = prompt
+			}
+		} else {
+			promptTemplate = ai.PromptMap["default"]
+			// If the resource `Kind` comes from an "integration plugin",
+			// maybe a customized prompt template will be involved.
+			if prompt, ok := ai.PromptMap[analysis.Kind]; ok {
+				promptTemplate = prompt
+			}
 		}
+
 		result, err := a.getAIResultForSanitizedFailures(texts, promptTemplate)
 		if err != nil {
 			// FIXME: can we avoid checking if output is json multiple times?
