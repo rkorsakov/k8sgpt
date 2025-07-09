@@ -531,9 +531,10 @@ func (a *Analysis) getAIResultForSanitizedFailures(texts []string, promptTmpl st
 
 	// Process template.
 	prompt := fmt.Sprintf(strings.TrimSpace(promptTmpl), inputKey)
-	if a.AIClient.GetName() == ai.CustomRestClientName {
-		prompt = fmt.Sprintf(prompts.PromptMap["raw"], a.Model, a.Language, prompt, inputKey)
-	}
+	//if a.AIClient.GetName() == ai.CustomRestClientName {
+	//	prompt = fmt.Sprintf(prompts.PromptMap["raw"], a.Model, a.Language, prompt, inputKey)
+	//}
+	prompt = fmt.Sprintf(prompts.PromptMap["raw"], a.Model, a.Language, prompt, inputKey)
 	response, err := a.AIClient.GetCompletion(a.Context, prompt)
 	fmt.Printf(prompt)
 	fmt.Printf(response)
