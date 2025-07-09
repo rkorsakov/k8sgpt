@@ -1,6 +1,9 @@
 package prompts
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 var (
 	promptMap       map[string]string
@@ -17,9 +20,25 @@ func init() {
 }
 
 func loadPrompts(lang string) error {
-	prompts, ok := languagePrompts[lang]
+	normalizedLang := strings.ToLower(lang)
+
+	// Маппинг альтернативных названий языков на стандартные коды
+	languageAliases := map[string]string{
+		"russian":    "ru",
+		"русский":    "ru",
+		"english":    "en",
+		"английский": "en",
+	}
+
+	if code, ok := languageAliases[normalizedLang]; ok {
+		normalizedLang = code
+	}
+
+	prompts, ok := languagePrompts[normalizedLang]
 	if !ok {
-		return fmt.Errorf("language %s not supported (en, ru)", lang)
+		fmt.Printf("prompts for language '%s' not found, using 'en' as fallback\n", lang)
+		prompts = languagePrompts["en"]
+		normalizedLang = "en"
 	}
 
 	promptMap = make(map[string]string)
@@ -27,7 +46,7 @@ func loadPrompts(lang string) error {
 		promptMap[key] = prompt.Template
 	}
 
-	currentLanguage = lang
+	currentLanguage = normalizedLang
 	return nil
 }
 
