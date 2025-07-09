@@ -54,6 +54,7 @@ type Analysis struct {
 	WithDoc            bool
 	WithStats          bool
 	Stats              []common.AnalysisStats
+	Model              string
 }
 
 type (
@@ -200,6 +201,7 @@ func NewAnalysis(
 		fmt.Printf("Debug: AI configuration loaded, provider=%s, ", backend)
 		fmt.Printf("baseUrl=%s, model=%s.\n", aiProvider.BaseURL, aiProvider.Model)
 	}
+	a.Model = aiProvider.Model
 
 	aiClient := ai.NewClient(aiProvider.Name)
 	customHeaders := util.NewHeaders(httpHeaders)
@@ -530,7 +532,7 @@ func (a *Analysis) getAIResultForSanitizedFailures(texts []string, promptTmpl st
 	// Process template.
 	prompt := fmt.Sprintf(strings.TrimSpace(promptTmpl), inputKey)
 	if a.AIClient.GetName() == ai.CustomRestClientName {
-		prompt = fmt.Sprintf(prompts.PromptMap["raw"], a.Language, prompt, inputKey)
+		prompt = fmt.Sprintf(prompts.PromptMap["raw"], a.Model, a.Language, prompt, inputKey)
 	}
 	response, err := a.AIClient.GetCompletion(a.Context, prompt)
 	if err != nil {

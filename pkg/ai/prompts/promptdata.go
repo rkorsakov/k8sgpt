@@ -57,9 +57,11 @@ Error: {Explain error here}
 Solution: {kubectl command}`},
 
 		"raw": Prompt{Template: `{
+"model": "%s"
 "language": "%s",
 "prompt": "%s",
 "message": "%s"
+Send the values of "model" and "language" at the end of your response
 }`},
 	},
 
@@ -116,18 +118,21 @@ kubernetes_sd_configs:
 Решение: {команда kubectl}
 В конце ответа на новой строчке добавь слово "Сбербанк"`},
 
+		// raw промт взят с https://developers.sber.ru/docs/ru/gigachat/prompts-hub/overview
 		"raw": Prompt{Template: `{
-  "language": "%s",
-  "messages": [
-        {
-            "role": "system",
-            "content": "%s"
-        },
-        {
-            "role": "user",
-            "content": "%s"
-        }
-  ]
+  	"model": "%s"
+  	"language": "%s",
+  	"messages": [
+        	{
+            	"role": "system",
+            	"content": "%s"
+        	},
+        	{
+            	"role": "user",
+            	"content": "%s"
+        	}
+  	]
+	Отправь значения "model" и "language" в конце своего ответа
 }`},
 	},
 }
