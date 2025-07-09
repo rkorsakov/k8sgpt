@@ -9,7 +9,8 @@ type LanguagePrompts map[string]Prompt
 var languagePrompts = map[string]LanguagePrompts{
 	"en": {
 		"default": Prompt{Template: `Simplify the following Kubernetes error message.
-				Provide the most possible solution in a step by step style in no more than 280 characters. Write the output in the following format:
+				Provide the most possible solution in a step by step style in no more than 280 characters. 
+				Write the output in the following format:
 				Error: {Detailed explanation error here}
 				Solution: {Step by step solution here}`},
 
@@ -64,7 +65,8 @@ var languagePrompts = map[string]LanguagePrompts{
 
 	"ru": {
 		"default": Prompt{Template: `Упрости следующее сообщение об ошибке Kubernetes.
-				Предоставь наиболее вероятное решение в виде пошаговой инструкции (не более 280 символов). Выведи результат в следующем формате:
+				Предоставь наиболее вероятное решение в виде пошаговой инструкции (не более 280 символов). 
+				Выведи результат в следующем формате:
 				Ошибка: {Подробное объяснение ошибки}
 				Решение: {Пошаговое решение}
 				В конце ответа на новой строчке добавь слово "Сбербанк"`},
