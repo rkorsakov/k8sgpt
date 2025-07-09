@@ -538,9 +538,6 @@ func (a *Analysis) getAIResultForSanitizedFailures(texts []string, promptTmpl st
 	prompt = fmt.Sprintf(prompts.GetPrompt("raw"), a.Model, a.Language, prompt, inputKey)
 	response, err := a.AIClient.GetCompletion(a.Context, prompt)
 
-	fmt.Printf(prompt)
-	fmt.Printf(response)
-
 	if err != nil {
 		return "", err
 	}
