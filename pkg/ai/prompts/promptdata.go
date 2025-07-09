@@ -61,7 +61,6 @@ Solution: {kubectl command}`},
 "language": "%s",
 "prompt": "%s",
 "message": "%s"
-Send the values of "model" and "language" at the end of your response
 }`},
 	},
 
@@ -132,7 +131,6 @@ kubernetes_sd_configs:
             	"content": "%s"
         	}
   	]
-	Отправь значения "model" и "language" в конце своего ответа
 }`},
 	},
 }
