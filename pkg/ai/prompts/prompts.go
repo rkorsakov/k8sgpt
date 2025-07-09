@@ -35,8 +35,8 @@ func loadPrompts(lang string) error {
 	}
 
 	prompts, ok := languagePrompts[normalizedLang]
+	// Если языка нет в промтах, используется en
 	if !ok {
-		fmt.Printf("prompts for language '%s' not found, using 'en' as fallback\n", lang)
 		prompts = languagePrompts["en"]
 		normalizedLang = "en"
 	}
