@@ -118,7 +118,6 @@ var languagePrompts = map[string]LanguagePrompts{
 
 		// raw промт взят с https://developers.sber.ru/docs/ru/gigachat/prompts-hub/overview
 		"raw": Prompt{Template: `{
-				Думай на русском
 				"model": "%s"
 				"language": "%s",
 				"messages": [
