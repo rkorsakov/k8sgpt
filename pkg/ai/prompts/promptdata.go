@@ -10,14 +10,14 @@ var languagePrompts = map[string]LanguagePrompts{
 	"en": {
 		"default": Prompt{Template: `Simplify the following Kubernetes error message.
 				Provide the most possible solution in a step by step style in no more than 280 characters. 
-				Write the output in the following format, check that your output is correct, that no symbols are lost and that the names are correct:
+				Write the output in the following format:
 				Error: {Detailed explanation error here}
 				Solution: {Step by step solution here}`},
 
 		"prom_conf": Prompt{Template: `Simplify the following Prometheus error message.
 				This error came when validating the Prometheus configuration file.
 				Provide step by step instructions to fix, with suggestions, referencing Prometheus documentation if relevant.
-				Write the output in the following format in no more than 300 characters, check that your output is correct, that no symbols are lost and that the names are correct:
+				Write the output in the following format in no more than 300 characters:
 				Error: {Detailed explanation error here}
 				Solution: {Step by step solution here}`},
 
@@ -47,12 +47,11 @@ var languagePrompts = map[string]LanguagePrompts{
 				  - Ports:
 				    - {list of ports}
 				  - Containers:
-				    - {list of container names}
-				Check that your output is correct, that no symbols are lost and that the names are correct`},
+				    - {list of container names}`},
 
 		"kyverno": Prompt{Template: `Simplify the following Kyverno warnings message.
 				Provide the most probable solution as a kubectl command.
-				Write the output in the following format, for the solution, only show the kubectl command, check that your output is correct, that no symbols are lost and that the names are correct:
+				Write the output in the following format, for the solution, only show the kubectl command:
 				Error: {Detailed explanation error here}
 				Solution: {kubectl command}`},
 
@@ -67,7 +66,7 @@ var languagePrompts = map[string]LanguagePrompts{
 	"ru": {
 		"default": Prompt{Template: `Упрости следующее сообщение об ошибке Kubernetes.
 				Предоставь наиболее вероятное решение в виде пошаговой инструкции (не более 280 символов). 
-				Выведи результат в следующем формате, проверяй чтобы твой вывод был корректный, нигде не терялись символы и названия были правильными:
+				Выведи результат в следующем формате, проверяй чтобы нигде не терялись пробелы и названия были правильными:
 				Ошибка: {Подробное объяснение ошибки}
 				Решение: {Подробное решение по пунктам}
 				В конце ответа на новой строчке добавь слово "Сбербанк"`},
@@ -75,7 +74,7 @@ var languagePrompts = map[string]LanguagePrompts{
 		"prom_conf": Prompt{Template: `Упрости следующее сообщение об ошибке Prometheus.
 				Эта ошибка возникла при проверке конфигурационного файла Prometheus.
 				Предоставь пошаговые инструкции по исправлению с предложениями, со ссылками на документацию Prometheus, если это уместно.
-				Выведи результат в следующем формате, не более 300 символов, проверяй чтобы твой вывод был корректный, нигде не терялись символы и названия были правильными:
+				Выведи результат в следующем формате, не более 300 символов, проверяй чтобы нигде не терялись пробелы и названия были правильными:
 				Ошибка: {Подробное объяснение ошибки}
 				Решение: {Подробное решение по пунктам}
 				В конце ответа на новой строчке добавь слово "Сбербанк"`},
@@ -107,12 +106,12 @@ var languagePrompts = map[string]LanguagePrompts{
 					- {список портов}
 				  - Контейнеры:
 					- {список имен контейнеров}
-				Проверяй чтобы твой вывод был корректный, нигде не терялись символы и названия были правильными
+				Проверяй чтобы нигде не терялись пробелы и названия были правильными
 				В конце ответа на новой строчке добавь слово "Сбербанк"`},
 
 		"kyverno": Prompt{Template: `Упрости следующее предупреждение Kyverno.
 				Предложи наиболее вероятное решение в виде команды kubectl.
-				Выведи результат в следующем формате, для решения покажи только команду kubectl, проверяй чтобы твой вывод юыл корректный, нигде не терялись символы и названия были правильными:
+				Выведи результат в следующем формате, для решения покажи только команду kubectl, проверяй чтобы нигде не терялись пробелы и названия были правильными:
 				Ошибка: {Подробное объяснение ошибки}
 				Решение: {команда kubectl}
 				В конце ответа на новой строчке добавь слово "Сбербанк"`},
