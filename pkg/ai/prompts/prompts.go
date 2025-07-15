@@ -66,10 +66,10 @@ func GetPrompt(key string) string {
 }
 
 var PromptMap = map[string]string{
-	"raw":                           "raw",
-	"default":                       "default",
-	"PrometheusConfigValidate":      "prom_conf",
-	"PrometheusConfigRelabelReport": "prom_relabel",
-	"PolicyReport":                  "kyverno",
-	"ClusterPolicyReport":           "kyverno",
+	"raw":                           "raw_promt",
+	"default":                       "default_prompt",
+	"PrometheusConfigValidate":      "prom_conf_prompt",
+	"PrometheusConfigRelabelReport": "prom_relabel_prompt",
+	"PolicyReport":                  "kyverno_prompt",
+	"ClusterPolicyReport":           "kyverno_prompt",
 }
