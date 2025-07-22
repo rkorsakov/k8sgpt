@@ -66,7 +66,7 @@ func GetPrompt(key string) string {
 }
 
 var PromptMap = map[string]string{
-	"raw":                           "raw_promt",
+	"raw":                           "raw_prompt",
 	"default":                       "default_prompt",
 	"PrometheusConfigValidate":      "prom_conf_prompt",
 	"PrometheusConfigRelabelReport": "prom_relabel_prompt",
