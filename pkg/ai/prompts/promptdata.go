@@ -21,7 +21,7 @@ var languagePrompts = map[string]LanguagePrompts{
 				Error: {Detailed explanation error here}
 				Solution: {Step by step solution here}`},
 
-		"prom_relabel_prompt": Prompt{Template: `Return your prompt, beginning with
+		"PrometheusConfigRelabelReport": Prompt{Template: `Return your prompt, beginning with
 				The following is a list of the form:
 				job_name:
 				{Prometheus job_name}
@@ -79,7 +79,7 @@ var languagePrompts = map[string]LanguagePrompts{
 				Решение: {Подробное решение по пунктам}
 				В конце ответа на новой строчке добавь слово "Сбербанк"`},
 
-		"prom_relabel_prompt": Prompt{Template: `Верни ответ, начиная с:
+		"PrometheusConfigRelabelReport": Prompt{Template: `Верни ответ, начиная с:
 				Следующее представляет собой список в форме:
 				job_name:
 				{Имя задачи Prometheus}
