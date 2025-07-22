@@ -55,7 +55,7 @@ var languagePrompts = map[string]LanguagePrompts{
 				Error: {Detailed explanation error here}
 				Solution: {kubectl command}`},
 
-		"raw_promt": Prompt{Template: `{
+		"raw_prompt": Prompt{Template: `{
 				"model": "%s"
 				"language": "%s",
 				"prompt": "%s",
@@ -117,7 +117,7 @@ var languagePrompts = map[string]LanguagePrompts{
 				В конце ответа на новой строчке добавь слово "Сбербанк"`},
 
 		// raw промт взят с https://developers.sber.ru/docs/ru/gigachat/prompts-hub/overview
-		"raw_promt": Prompt{Template: `{
+		"raw_prompt": Prompt{Template: `{
 				"model": "%s"
 				"language": "%s",
 				"messages": [
