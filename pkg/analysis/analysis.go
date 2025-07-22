@@ -474,7 +474,7 @@ func (a *Analysis) GetAIResults(output string, anonymize bool) error {
 
 		prompt := analysis.Kind
 		if _, ok := prompts.PromptMap[prompt]; !ok {
-			prompt = "default"
+			prompt = "default_prompt"
 		}
 		promptTemplate := prompts.GetPrompt(prompt)
 
@@ -535,7 +535,7 @@ func (a *Analysis) getAIResultForSanitizedFailures(texts []string, promptTmpl st
 	//	prompt = fmt.Sprintf(prompts.GetPrompt("raw"), a.Model, a.Language, prompt, inputKey)
 	//}
 	prompt := fmt.Sprintf(strings.TrimSpace(promptTmpl))
-	prompt = fmt.Sprintf(prompts.GetPrompt("raw"), a.Model, a.Language, prompt, inputKey)
+	prompt = fmt.Sprintf(prompts.GetPrompt("raw_prompt"), a.Model, a.Language, prompt, inputKey)
 	fmt.Print(prompt)
 	response, err := a.AIClient.GetCompletion(a.Context, prompt)
 
