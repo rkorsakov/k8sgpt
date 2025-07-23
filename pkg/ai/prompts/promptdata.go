@@ -14,14 +14,14 @@ var languagePrompts = map[string]LanguagePrompts{
 				Error: {Detailed explanation error here}
 				Solution: {Step by step solution here}`},
 
-		"PrometheusConfigValidate": Prompt{Template: `Simplify the following Prometheus error message.
+		"prom_conf_prompt": Prompt{Template: `Simplify the following Prometheus error message.
 				This error came when validating the Prometheus configuration file.
 				Provide step by step instructions to fix, with suggestions, referencing Prometheus documentation if relevant.
 				Write the output in the following format in no more than 300 characters:
 				Error: {Detailed explanation error here}
 				Solution: {Step by step solution here}`},
 
-		"PrometheusConfigRelabelReport": Prompt{Template: `Return your prompt, beginning with
+		"prom_relabel_prompt": Prompt{Template: `Return your prompt, beginning with
 				The following is a list of the form:
 				job_name:
 				{Prometheus job_name}
@@ -49,12 +49,7 @@ var languagePrompts = map[string]LanguagePrompts{
 				  - Containers:
 				    - {list of container names}`},
 
-		"PolicyReport": Prompt{Template: `Simplify the following Kyverno warnings message.
-				Provide the most probable solution as a kubectl command.
-				Write the output in the following format, for the solution, only show the kubectl command:
-				Error: {Detailed explanation error here}
-				Solution: {kubectl command}`},
-		"ClusterPolicyReport": Prompt{Template: `Simplify the following Kyverno warnings message.
+		"kyverno_prompt": Prompt{Template: `Simplify the following Kyverno warnings message.
 				Provide the most probable solution as a kubectl command.
 				Write the output in the following format, for the solution, only show the kubectl command:
 				Error: {Detailed explanation error here}
@@ -76,7 +71,7 @@ var languagePrompts = map[string]LanguagePrompts{
 				Решение: {Подробное решение по пунктам}
 				В конце ответа на новой строчке добавь слово "Сбербанк"`},
 
-		"PrometheusConfigValidate": Prompt{Template: `Упрости следующее сообщение об ошибке Prometheus.
+		"prom_conf_prompt": Prompt{Template: `Упрости следующее сообщение об ошибке Prometheus.
 				Эта ошибка возникла при проверке конфигурационного файла Prometheus.
 				Предоставь пошаговые инструкции по исправлению с предложениями, со ссылками на документацию Prometheus, если это уместно.
 				Выведи результат в следующем формате, не более 300 символов, проверяй чтобы нигде не терялись пробелы и названия были правильными:
@@ -84,7 +79,7 @@ var languagePrompts = map[string]LanguagePrompts{
 				Решение: {Подробное решение по пунктам}
 				В конце ответа на новой строчке добавь слово "Сбербанк"`},
 
-		"PrometheusConfigRelabelReport": Prompt{Template: `Верни ответ, начиная с:
+		"prom_relabel_prompt": Prompt{Template: `Верни ответ, начиная с:
 				Следующее представляет собой список в форме:
 				job_name:
 				{Имя задачи Prometheus}
@@ -114,13 +109,7 @@ var languagePrompts = map[string]LanguagePrompts{
 				Проверяй чтобы нигде не терялись пробелы и названия были правильными
 				В конце ответа на новой строчке добавь слово "Сбербанк"`},
 
-		"ClusterPolicyReport": Prompt{Template: `Упрости следующее предупреждение Kyverno.
-				Предложи наиболее вероятное решение в виде команды kubectl.
-				Выведи результат в следующем формате, для решения покажи только команду kubectl, проверяй чтобы нигде не терялись пробелы и названия были правильными:
-				Ошибка: {Подробное объяснение ошибки}
-				Решение: {команда kubectl}
-				В конце ответа на новой строчке добавь слово "Сбербанк"`},
-		"PolicyReport": Prompt{Template: `Упрости следующее предупреждение Kyverno.
+		"kyverno_prompt": Prompt{Template: `Упрости следующее предупреждение Kyverno.
 				Предложи наиболее вероятное решение в виде команды kubectl.
 				Выведи результат в следующем формате, для решения покажи только команду kubectl, проверяй чтобы нигде не терялись пробелы и названия были правильными:
 				Ошибка: {Подробное объяснение ошибки}

@@ -62,6 +62,13 @@ func GetPrompt(key string) string {
 	if prompt, ok := promptMap[key]; ok {
 		return prompt
 	}
+
+	if alias, ok := PromptMap[key]; ok {
+		if prompt, ok := promptMap[alias]; ok {
+			return prompt
+		}
+	}
+
 	return promptMap["default"]
 }
 
