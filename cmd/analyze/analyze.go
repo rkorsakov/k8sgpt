@@ -162,7 +162,7 @@ func init() {
 	// output as json
 	AnalyzeCmd.Flags().StringVarP(&output, "output", "o", "text", "Output format (text, json)")
 	// add language options for output
-	AnalyzeCmd.Flags().StringVarP(&language, "language", "l", "english", "Languages to use for AI (e.g. 'English', 'Spanish', 'French', 'German', 'Italian', 'Portuguese', 'Dutch', 'Russian', 'Chinese', 'Japanese', 'Korean')")
+	AnalyzeCmd.Flags().StringVarP(&language, "language", "l", "en", "Languages to use for AI (e.g. 'English', 'Russian', 'French', 'German', 'Italian', 'Portuguese', 'Dutch', 'Spanish', 'Chinese', 'Japanese', 'Korean')")
 	// add max concurrency
 	AnalyzeCmd.Flags().IntVarP(&maxConcurrency, "max-concurrency", "m", 10, "Maximum number of concurrent requests to the Kubernetes API server")
 	// kubernetes doc flag

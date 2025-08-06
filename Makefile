@@ -51,10 +51,10 @@ all: tidy add-copyright lint cover build
 
 ## build: Build binaries by default
 .PHONY: build
-build: 
+build:
 	@echo "$(shell go version)"
 	@echo "===========> Building binary $(BUILDAPP) *[Git Info]: $(VERSION)-$(GIT_COMMIT)"
-	@export CGO_ENABLED=0 && go build -o $(BUILDAPP) -ldflags "-s -w -X main.version=dev -X main.commit=$$(git rev-parse --short HEAD) -X main.date=$$(date +%FT%TZ)" $(BUILDFILE)
+	@$(GO) build -o $(BUILDAPP) -ldflags "-s -w -X main.version=dev -X main.commit=$(GIT_COMMIT) -X main.date=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')" $(BUILDFILE)
 
 ## tidy: tidy go.mod
 .PHONY: tidy

@@ -18,6 +18,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"github.com/k8sgpt-ai/k8sgpt/pkg/ai/prompts"
 	"reflect"
 	"strings"
 	"sync"
@@ -53,6 +54,7 @@ type Analysis struct {
 	WithDoc            bool
 	WithStats          bool
 	Stats              []common.AnalysisStats
+	Model              string
 }
 
 type (
@@ -199,6 +201,7 @@ func NewAnalysis(
 		fmt.Printf("Debug: AI configuration loaded, provider=%s, ", backend)
 		fmt.Printf("baseUrl=%s, model=%s.\n", aiProvider.BaseURL, aiProvider.Model)
 	}
+	a.Model = aiProvider.Model
 
 	aiClient := ai.NewClient(aiProvider.Name)
 	customHeaders := util.NewHeaders(httpHeaders)
@@ -464,16 +467,19 @@ func (a *Analysis) GetAIResults(output string, anonymize bool) error {
 			texts = append(texts, failure.Text)
 		}
 
-		promptTemplate := ai.PromptMap["default"]
-		// If the resource `Kind` comes from an "integration plugin",
-		// maybe a customized prompt template will be involved.
-		if prompt, ok := ai.PromptMap[analysis.Kind]; ok {
-			promptTemplate = prompt
+		// Устанавливаем язык для промтов
+		if err := prompts.SetLanguage(a.Language); err != nil {
+			return fmt.Errorf("failed to set language for prompts: %v", err)
 		}
+
+		prompt := analysis.Kind
+		if _, ok := prompts.PromptMap[prompt]; !ok {
+			prompt = "default_prompt"
+		}
+		promptTemplate := prompts.GetPrompt(prompt)
+
 		result, err := a.getAIResultForSanitizedFailures(texts, promptTemplate)
 		if err != nil {
-			// FIXME: can we avoid checking if output is json multiple times?
-			//   maybe implement the progress bar better?
 			if output != "json" {
 				_ = bar.Exit()
 			}
@@ -524,11 +530,14 @@ func (a *Analysis) getAIResultForSanitizedFailures(texts []string, promptTmpl st
 	}
 
 	// Process template.
-	prompt := fmt.Sprintf(strings.TrimSpace(promptTmpl), a.Language, inputKey)
-	if a.AIClient.GetName() == ai.CustomRestClientName {
-		prompt = fmt.Sprintf(ai.PromptMap["raw"], a.Language, inputKey, prompt)
-	}
+	//prompt := fmt.Sprintf(strings.TrimSpace(promptTmpl), inputKey)
+	//if a.AIClient.GetName() == ai.CustomRestClientName {
+	//	prompt = fmt.Sprintf(prompts.GetPrompt("raw"), a.Model, a.Language, prompt, inputKey)
+	//}
+	prompt := fmt.Sprintf(strings.TrimSpace(promptTmpl))
+	prompt = fmt.Sprintf(prompts.GetPrompt("raw_prompt"), a.Model, a.Language, prompt, inputKey)
 	response, err := a.AIClient.GetCompletion(a.Context, prompt)
+
 	if err != nil {
 		return "", err
 	}
